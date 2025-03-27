@@ -1,0 +1,271 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+<div class="container-fluid">
+    <div class="hero">
+        <div class="slideshow">
+
+            <img src="~/images/img1.jpg" class="active" alt="Interior Design 1">
+            <img src="~/images/img2.jpg" alt="Interior Design 2">
+            <img src="~/images/img3.jpg" alt="Interior Design 3">
+        </div>
+    </div>
+    <div class="hero-text">
+        <h1>Transform Your Space with Stylish Interiors</h1>
+        <p>Discover unique designs and elegant decor solutions.</p>
+    </div>
+</div>
+
+<section class="about-us">
+    <div class="content">
+        
+        <h2>What We Offer</h2>
+        <h2>Our Services</h2>
+        <p>We provide exceptional interior design services tailored to your unique style and needs.</p>
+    </div>
+</section>
+
+<section class="our-services">
+    <div class="service-container">
+        <div class="service-box">
+            <h3>Interior Design</h3>
+            <p>Comprehensive design solutions that transform your space into a harmonious blend of aesthetics and functionality.</p>
+        </div>
+        <div class="service-box">
+            <h3>Renovation</h3>
+            <p>Breathe new life into existing spaces with our renovation services that combine modern trends with timeless principles.</p>
+        </div>
+        <div class="service-box">
+            <h3>Consultation</h3>
+            <p>Expert guidance to help you make informed decisions about your interior spaces, materials, and design directions.</p>
+        </div>
+        <div class="service-box">
+            <h3>Styling</h3>
+            <p>Elevate your space with our styling services that add those perfect finishing touches that make a house feel like home.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- Filter Buttons -->
+<div class="filter-container">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="residential">Residential</button>
+    <button class="filter-btn" data-filter="commercial">Commercial</button>
+</div>
+
+<!-- Image Gallery -->
+<div class="gallery">
+    <img src="~/images/img5.jpg" class="portfolio-image all" alt="Project 5">
+    <img src="~/images/img6.jpg" class="portfolio-image all" alt="Project 6">
+    <img src="~/images/img7.jpg" class="portfolio-image residential" alt="Residential 1" style="display: none;">
+    <img src="~/images/img8.jpg" class="portfolio-image residential" alt="Residential 2" style="display: none;">
+    <img src="~/images/img9.jpg" class="portfolio-image commercial" alt="Commercial 1" style="display: none;">
+    <img src="~/images/img10.jpg" class="portfolio-image commercial" alt="Commercial 2" style="display: none;">
+</div>
+
+<div class="partition"></div>
+
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-content">
+            <div class="contact-form">
+                <h3>Get In Touch</h3>
+                <h2>Contact Us</h2>
+                <p>Ready to transform your space? Reach out for a consultation, and let's bring your vision to life.</p>
+
+                <form action="/Home/SubmitContactForm" method="post">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="Your phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Service:</label>
+                        <select id="service" name="service" class="form-control">
+                            <option value="">Select a service</option>
+                            <option value="Interior Design">Interior Design</option>
+                            <option value="Space Planning">Space Planning</option>
+                            <option value="Furniture Customization">Furniture Customization</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" class="form-control" rows="4" placeholder="Tell us about your project..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p>Have questions or want to discuss your project details? Our team is here to help you create the space of your dreams.</p>
+                <p><strong>Address:</strong> 123 Design Avenue, Creative District, New York, NY 10001</p>
+                <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+                <p><strong>Email:</strong> info@interiordesign.com</p>
+                <p><strong>Business Hours:</strong> Monday - Friday: 9:00 AM - 6:00 PM, Saturday: 10:00 AM - 4:00 PM, Sunday: Closed</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- JavaScript for Filtering -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll(".filter-btn");
+        const images = document.querySelectorAll(".portfolio-image");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", function () {
+                const filter = this.getAttribute("data-filter");
+
+                buttons.forEach(btn => btn.classList.remove("active"));
+                this.classList.add("active");
+
+                images.forEach(img => {
+                    img.style.display = (filter === "all" || img.classList.contains(filter)) ? "inline-block" : "none";
+                });
+            });
+        });
+    });
+</script>
+
+<!-- CSS -->
+<style>
+    .filter-container {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .filter-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        border: 2px solid #258cfb;
+        background: transparent;
+        color: #258cfb;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        font-weight: bold;
+    }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #258cfb;
+            color: white;
+        }
+
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .portfolio-image {
+        width: 300px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .portfolio-image:hover {
+            transform: scale(1.05);
+        }
+
+    .partition {
+        width: 100%;
+        height: 4px;
+        background-color: #ddd;
+        margin: 40px 0;
+    }
+
+    .contact-section {
+        padding: 50px 0;
+        background-color: #f8f9fa;
+        text-align: center;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 10px;
+        background-color: #258cfb;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+    }
+
+        .btn-primary:hover {
+            background-color: #1b6ec2;
+        }
+</style>
+<!-- Footer Section -->
+<footer class="bg-dark text-white py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- About Section -->
+            <div class="col-md-3">
+                <h4 class="fw-bold">INTERIOR</h4>
+                <p class="small">
+                    Creating exceptional interior designs that transform spaces into functional works of art.
+                    Our focus on minimalism and attention to detail ensures timeless elegance.
+                </p>
+                <!-- Social Icons -->
+                <div>
+                    <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-md-3">
+                <h5 class="fw-bold">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">About Us</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Projects</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Services -->
+            <div class="col-md-3">
+                <h5 class="fw-bold">Services</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white text-decoration-none">Interior Design</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Renovation</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Consultation</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Styling</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="col-md-3">
+                <h5 class="fw-bold">Newsletter</h5>
+                <p class="small">Subscribe to our newsletter for the latest updates and design insights.</p>
+                <div class="input-group">
+                    <input type="email" class="form-control bg-secondary text-white" placeholder="Your email">
+                    <button class="btn btn-light">Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="text-center mt-4">
+            <hr class="border-secondary">
+            <p class="small mb-0">© 2025 INTERIOR. All rights reserved.</p>
+        </div>
+    </div>
+</footer>

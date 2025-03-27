@@ -1,0 +1,278 @@
+﻿@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div class="container mt-5 mb-5">
+    <!-- Top Heading -->
+    <div class="text-center mb-4">
+        <h1 class="contactus-heading">CONTACT US</h1>
+        <p class="contactus-subtext">Get in touch with us to transform your space with exceptional design!</p>
+    </div>
+
+    <!-- Row with Contact Form on Left & Contact Details (with Round Image) on Right -->
+    <div class="row align-items-center">
+        <!-- Left Column: Contact Form -->
+        <div class="col-md-6 contact-form">
+            <h3>Send Us a Message</h3>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="fullName" class="form-control" placeholder="Your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="emailAddress" class="form-control" placeholder="Your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phoneNumber" class="form-control" placeholder="Your phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="service">Space to Design:</label>
+                    <select id="service" name="spaceToDesign" class="form-control" required>
+                        <option value="">Select a space to design</option>
+                        <option value="Interior Design">Interior Design</option>
+                        <option value="Space Planning">Space Planning</option>
+                        <option value="Furniture Customization">Furniture Customization</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="budget">Estimated Budget:</label>
+                    <input type="number" id="budget" name="estimatedBudget" class="form-control" placeholder="Your estimated budget" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="designStyle">Design Style:</label>
+                    <input type="text" id="designStyle" name="designStyle" class="form-control" placeholder="Preferred design style (optional)">
+                </div>
+
+                <div class="form-group">
+                    <label for="projectTimeline">Project Timeline:</label>
+                    <input type="text" id="projectTimeline" name="projectTimeline" class="form-control" placeholder="Expected project timeline (optional)">
+                </div>
+
+                <div class="form-group">
+                    <label for="specialRequirements">Special Requirements:</label>
+                    <textarea id="specialRequirements" name="specialRequirements" class="form-control" rows="4" placeholder="Any special requirements? (optional)"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="heardAboutUs">How did you hear about us?</label>
+                    <input type="text" id="heardAboutUs" name="heardAboutUs" class="form-control" placeholder="Let us know how you found us (optional)">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" class="form-control" rows="4" placeholder="Tell us about your project..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+
+        <!-- Right Column: Contact Details with Round Image -->
+        <div class="col-md-6 contact-info">
+            <div class="contact-image">
+                <img src="~/images/img1.jpg" alt="Contact Us" class="img-fluid contactus-image rounded-circle shadow" />
+            </div>
+            <div class="contact-details mt-3">
+                <p>
+                    <strong>Address:</strong><br>
+                    123 Design Avenue, Creative District<br>
+                    New York, NY 10001
+                </p>
+                <p>
+                    <strong>Phone:</strong><br>
+                    +1 (555) 123-4567
+                </p>
+                <p>
+                    <strong>Email:</strong><br>
+                    info@interiordesign.com
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inline CSS for ContactUs Page -->
+<style>
+    .contactus-heading {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .contactus-subtext {
+        font-size: 1rem;
+        color: #555;
+    }
+
+    .contact-form {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: left;
+    }
+
+        .contact-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .contact-form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .contact-form .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+    .btn-primary {
+        width: 100%;
+        padding: 10px;
+        background-color: #258cfb;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+    }
+
+        .btn-primary:hover {
+            background-color: #1b6ec2;
+        }
+
+    .contact-info {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: left;
+    }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .contact-info strong {
+            color: #333;
+        }
+
+    .contact-image {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .contactus-image {
+        max-width: 80%;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+    }
+</style>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-5 mt-5 w-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <h4 class="fw-bold">INTERIOR</h4>
+                <p class="small">
+                    Creating exceptional interior designs that transform spaces into functional works of art.
+                    Our focus on minimalism and attention to detail ensures timeless elegance.
+                </p>
+                <div>
+                    <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <h5 class="fw-bold">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">About Us</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Projects</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h5 class="fw-bold">Services</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white text-decoration-none">Interior Design</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Renovation</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Consultation</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Styling</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h5 class="fw-bold">Newsletter</h5>
+                <p class="small">Subscribe to our newsletter for the latest updates and design insights.</p>
+                <div class="input-group">
+                    <input type="email" class="form-control bg-secondary text-white" placeholder="Your email">
+                    <button class="btn btn-light">Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <hr class="border-secondary">
+            <p class="small mb-0">© 2025 INTERIOR. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+
+<!-- JavaScript for handling the form submission -->
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const formData = {
+            fullName: document.getElementById('name').value,
+            emailAddress: document.getElementById('email').value,
+            phoneNumber: document.getElementById('phone').value,
+            spaceToDesign: document.getElementById('service').value,
+            estimatedBudget: document.getElementById('budget').value,
+            designStyle: document.getElementById('designStyle').value,
+            projectTimeline: document.getElementById('projectTimeline').value,
+            specialRequirements: document.getElementById('specialRequirements').value,
+            heardAboutUs: document.getElementById('heardAboutUs').value,
+            message: document.getElementById('message').value
+        };
+
+        // Send the data to the API
+        fetch('https://localhost:7131/api/contactform', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Your message has been sent successfully!');
+            // Optionally, clear the form after submission
+            document.getElementById('contactForm').reset();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('There was an error sending your message. Please try again later.');
+        });
+    });
+</script>
