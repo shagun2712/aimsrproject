@@ -3,10 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔹 Add DbContext with SQL Server
+// 🔹 Register DbContext with SQL Server
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// 🔹 Register IHttpClientFactory
+builder.Services.AddHttpClient();
+
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

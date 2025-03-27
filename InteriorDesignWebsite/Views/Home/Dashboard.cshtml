@@ -1,0 +1,44 @@
+﻿@model List<ContactForm>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Contact Form Submissions</h2>
+        <div id="contactList">
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var form in Model)
+                {
+                    <div class="contact-item">
+                        <h5>@form.FullName</h5>
+                        <p><strong>Email:</strong> @form.EmailAddress</p>
+                        <p><strong>Phone:</strong> @form.PhoneNumber</p>
+                        <p><strong>Space to Design:</strong> @form.SpaceToDesign</p>
+                        <p><strong>Budget:</strong> $@form.EstimatedBudget</p>
+                        <p><strong>Message:</strong> @form.Message</p>
+                        <hr />
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No contact form submissions available.</p>
+            }
+        </div>
+    </div>
+
+    <!-- JavaScript (Optional) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // You can implement any additional frontend logic here if needed.
+        });
+    </script>
+</body>
+</html>
