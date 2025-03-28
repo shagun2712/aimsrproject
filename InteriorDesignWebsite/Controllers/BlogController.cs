@@ -39,7 +39,7 @@ namespace InteriorDesignWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
-                blogPost.CreatedAt = DateTime.Now;
+                blogPost.CreatedAt = DateTime.Now; // Explicitly set the CreatedAt value
                 _context.BlogPosts.Add(blogPost);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));

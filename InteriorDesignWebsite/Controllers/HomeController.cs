@@ -51,6 +51,31 @@ namespace InteriorDesignWebsite.Controllers
             }
         }
 
+
+        public IActionResult Blog()
+        {
+            List<BlogPost> blogPosts = new List<BlogPost>();
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                string query = "SELECT ImageUrl, CreatedAt FROM BlogPosts"; // Select all needed columns.
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        blogPosts.Add(new BlogPost
+                        {
+                            ImageUrl = reader["ImageUrl"].ToString(),
+                            CreatedAt = Convert.ToDateTime(reader["CreatedAt"])
+                        });
+                    }
+                }
+            }
+            return View(blogPosts);
+        }
+
+
         public async Task<IActionResult> Dashboard()
         {
             var client = _httpClientFactory.CreateClient();
@@ -114,19 +139,18 @@ namespace InteriorDesignWebsite.Controllers
 
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
-                string query = "INSERT INTO BlogPosts (ImageUrl) VALUES (@ImageUrl)";
+                string query = "INSERT INTO BlogPosts (ImageUrl, CreatedAt) VALUES (@ImageUrl, GETDATE())";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                   
                     cmd.Parameters.AddWithValue("@ImageUrl", ImageUrl);
-                   
+
                     con.Open();
                     cmd.ExecuteNonQuery();
                 }
             }
 
             TempData["Success"] = "Blog post uploaded successfully!";
-            return RedirectToAction("Dashboard");
+            return RedirectToAction("Blog");
         }
     }
 }
