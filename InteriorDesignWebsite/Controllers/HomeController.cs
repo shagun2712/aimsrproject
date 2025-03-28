@@ -1,9 +1,16 @@
-using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using InteriorDesignWebsite.Models;
 using Newtonsoft.Json;
+using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using InteriorDesignWebsite.Models;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System;
 
 namespace InteriorDesignWebsite.Controllers
 {
@@ -11,102 +18,115 @@ namespace InteriorDesignWebsite.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly string _connectionString;
 
-        // Inject IHttpClientFactory to make API calls
-        public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory)
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        // GET: Home/Index
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
+        public IActionResult About() => View();
+        public IActionResult Projects() => View();
+        public IActionResult Contact() => View();
+        public IActionResult Consultation() => View();
+        public IActionResult Login() => View();
 
-        // GET: Home/About
-        public IActionResult About()
-        {
-            return View();
-        }
-
-        // GET: Home/Projects
-        public IActionResult Projects()
-        {
-            return View();
-        }
-
-        // GET: Home/Blog
-        public IActionResult Blog()
-        {
-            return View();
-        }
-
-        // GET: Home/Contact
-        public IActionResult Contact()
-        {
-            return View();
-        }
-
-        // GET: Home/Consultation
-        public IActionResult Consultation()
-        {
-            return View();
-        }
-
-        // POST: Home/Login
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            // Hardcoded credentials for admin
             string adminUsername = "admin";
-            string adminPassword = "password"; // Change this to your actual password
+            string adminPassword = "password";
 
             if (username == adminUsername && password == adminPassword)
             {
-                // Redirect to the Dashboard after successful login
                 return RedirectToAction("Dashboard");
             }
             else
             {
-                // Display error message for incorrect credentials
                 ViewData["LoginError"] = "Invalid username or password.";
                 return View();
             }
         }
 
-        // GET: Home/Login
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        // Dashboard action - fetch contact form data from the API and display it
         public async Task<IActionResult> Dashboard()
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync("https://localhost:7131/api/contactform");
 
+            List<ContactForm> contactForms = new List<ContactForm>();
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var contactForms = JsonConvert.DeserializeObject<List<ContactForm>>(content);
+                contactForms = JsonConvert.DeserializeObject<List<ContactForm>>(content);
+            }
 
-                // Pass the data to the Dashboard view
-                return View(contactForms);
-            }
-            else
+            // Fetch blog images from database
+            List<string> imageUrls = new List<string>();
+            using (SqlConnection con = new SqlConnection(_connectionString))
             {
-                // If API call fails, return an empty list
-                return View(new List<ContactForm>());
+                string query = "SELECT ImageUrl FROM BlogPosts";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        imageUrls.Add(reader["ImageUrl"].ToString());
+                    }
+                }
             }
+
+            // ✅ Pass the correct model type
+            var viewModel = new DashboardViewModel
+            {
+                ContactForms = contactForms,
+                ImageUrls = imageUrls
+            };
+
+            return View(viewModel);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public async Task<IActionResult> UploadBlogPost(IFormFile imageFile)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (imageFile == null || imageFile.Length == 0)
+            {
+                TempData["Error"] = "Please upload an image.";
+                return RedirectToAction("Dashboard");
+            }
+
+            string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + imageFile.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(stream);
+            }
+
+            string ImageUrl = "/images/" + uniqueFileName;
+
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                string query = "INSERT INTO BlogPosts (ImageUrl) VALUES (@ImageUrl)";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                   
+                    cmd.Parameters.AddWithValue("@ImageUrl", ImageUrl);
+                   
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            TempData["Success"] = "Blog post uploaded successfully!";
+            return RedirectToAction("Dashboard");
         }
     }
 }

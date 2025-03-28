@@ -1,29 +1,31 @@
-﻿@model List<ContactForm>
+﻿@model DashboardViewModel
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Admin Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center">Contact Form Submissions</h2>
+        <h2 class="text-center">Admin Dashboard</h2>
+
+        <!-- 🔹 Contact Form Submissions -->
+        <h3>Contact Form Submissions</h3>
         <div id="contactList">
-            @if (Model != null && Model.Count > 0)
+            @if (Model.ContactForms != null && Model.ContactForms.Count > 0)
             {
-                foreach (var form in Model)
+                foreach (var form in Model.ContactForms)
                 {
-                    <div class="contact-item">
+                    <div class="contact-item border p-3 mb-3">
                         <h5>@form.FullName</h5>
                         <p><strong>Email:</strong> @form.EmailAddress</p>
                         <p><strong>Phone:</strong> @form.PhoneNumber</p>
                         <p><strong>Space to Design:</strong> @form.SpaceToDesign</p>
                         <p><strong>Budget:</strong> $@form.EstimatedBudget</p>
                         <p><strong>Message:</strong> @form.Message</p>
-                        <hr />
                     </div>
                 }
             }
@@ -32,13 +34,33 @@
                 <p>No contact form submissions available.</p>
             }
         </div>
-    </div>
 
-    <!-- JavaScript (Optional) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // You can implement any additional frontend logic here if needed.
-        });
-    </script>
+        <!-- 🔹 Blog Post Upload -->
+        <h3>Upload Blog Image</h3>
+        <form method="post" enctype="multipart/form-data" asp-action="UploadBlogPost">
+            <label>Title:</label>
+            <input type="text" name="title" required class="form-control" />
+            <label>Description:</label>
+            <textarea name="description" required class="form-control"></textarea>
+            <label>Upload Image:</label>
+            <input type="file" name="imageFile" required class="form-control" />
+            <button type="submit" class="btn btn-primary mt-2">Upload</button>
+        </form>
+
+        <h3>Uploaded Images:</h3>
+        <div>
+            @if (Model.ImageUrls != null && Model.ImageUrls.Count > 0)
+            {
+                @foreach (var img in Model.ImageUrls)
+                {
+                    <img src="@img" width="200" height="150" style="margin:10px;" />
+                }
+            }
+            else
+            {
+                <p>No images uploaded yet.</p>
+            }
+        </div>
+    </div>
 </body>
 </html>

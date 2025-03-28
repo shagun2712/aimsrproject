@@ -1,0 +1,23 @@
+﻿@model List<BlogPost>
+
+<h2>Blog Page</h2>
+
+<div>
+    @if (Model != null && Model.Count > 0)
+    {
+        @foreach (var post in Model)
+        {
+            <div style="margin: 10px;">
+                <img src="@post.ImageUrl" width="300" height="200" />
+                <p>Uploaded on: @post.CreatedAt.ToString("dd MMM yyyy")</p>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No blog images available.</p>
+    }
+</div>
+<li class="nav-item">
+    <a class="nav-link" href="@Url.Action("Login", "Home")">Login</a>
+</li>
